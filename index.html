@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reviewer Hub — UTS, ITC and English</title>
+<style>
+:root{--bg:#f6f7f9;--surface:#fff;--ink:#1b2130;--muted:#5a6275;--line:#dfe3ea;--accent:#2c4fd1;--accent-ink:#fff;--accent-soft:#e8edfc;--good:#1f7a4d;--good-soft:#e3f4ea;--bad:#b3382c;--bad-soft:#fbe9e6;--serif:"Newsreader",Georgia,"Times New Roman",serif;--sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--surface:#1a1e28;--ink:#e8ebf2;--muted:#98a0b3;--line:#2a3040;--accent:#8aa2ff;--accent-ink:#0f1220;--accent-soft:#232b4a;--good:#5cc58f;--good-soft:#17302a;--bad:#f08a7e;--bad-soft:#3a1f1c}}
+:root[data-theme="dark"]{--bg:#12151c;--surface:#1a1e28;--ink:#e8ebf2;--muted:#98a0b3;--line:#2a3040;--accent:#8aa2ff;--accent-ink:#0f1220;--accent-soft:#232b4a;--good:#5cc58f;--good-soft:#17302a;--bad:#f08a7e;--bad-soft:#3a1f1c}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 20px}
+.brand{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;background:none;border:0;padding:0}
+.tabs{display:flex;gap:4px;margin-left:12px}
+.tab{background:none;border:0;padding:8px 14px;border-radius:8px;color:var(--muted);font-weight:500}
+.tab[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
+.spacer{flex:1}
+.icon-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:7px 11px;color:var(--muted)}
+.menu-btn{display:none}
+.hub{max-width:1000px;margin:0 auto;padding:40px 20px 80px}
+.hub h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,6vw,60px);line-height:1.05;letter-spacing:-.02em;margin:0 0 12px}
+.hub>p{color:var(--muted);max-width:56ch;font-size:17px;margin:0 0 32px}
+.subs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.sc{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;display:block;width:100%}
+.sc:hover{border-color:var(--accent)}
+.sc .code{font-family:var(--serif);font-size:44px;font-weight:600;letter-spacing:-.02em;color:var(--accent);line-height:1}
+.sc h2{font-family:var(--serif);font-weight:500;font-size:22px;margin:6px 0 8px}
+.sc p{color:var(--muted);margin:0 0 16px}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:14px}.stats b{display:block;font-size:22px;color:var(--ink);font-family:var(--serif)}
+.shell{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:270px minmax(0,1fr);gap:40px;padding:28px 20px 80px}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 74px);align-self:start;max-height:calc(100vh - 100px);overflow:auto;padding-right:6px}
+.search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-bottom:16px}
+.grp{font-size:13px;color:var(--muted);font-weight:600;margin:18px 0 6px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:15px}
+.nav a:hover,.nav a.on{background:var(--accent-soft)}.nav a.on{color:var(--accent);font-weight:600}
+.tick{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);flex:none}.done .tick{background:var(--good);border-color:var(--good)}
+.intro h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5.5vw,56px);line-height:1.05;letter-spacing:-.02em;margin:0 0 12px;max-width:16ch}
+.intro p{color:var(--muted);max-width:56ch;margin:0 0 18px;font-size:17px}
+.prog{display:flex;align-items:center;gap:12px;margin-bottom:36px;font-size:14px;color:var(--muted)}
+.bar{flex:0 1 240px;height:6px;background:var(--line);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--good);transition:width .3s}
+.topic{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px clamp(18px,4vw,36px);margin-bottom:24px}
+.topic-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.topic h2{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1.15;margin:0 0 4px}
+.unit{color:var(--muted);font-size:14px;margin:0 0 14px}
+.lead{font-family:var(--serif);font-size:19px;line-height:1.55;max-width:64ch;margin:0 0 8px}
+.topic h3{font-size:16px;font-weight:600;margin:26px 0 8px}
+.topic p{max-width:68ch;margin:8px 0}.topic ul,.topic ol{max-width:68ch;padding-left:22px;margin:8px 0}.topic li{margin:4px 0}.topic li::marker{color:var(--accent)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:10px 0}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg);font-weight:600;font-size:14px}tr:last-child td{border-bottom:0}td:first-child{font-weight:600;white-space:nowrap}
+.note{background:var(--accent-soft);border-radius:10px;padding:12px 16px;max-width:68ch;margin:16px 0 4px;font-size:15px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;font-weight:500}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn[aria-pressed="true"]{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.empty{color:var(--muted);padding:40px 0}
+.study{max-width:720px;margin:0 auto;padding:32px 20px 80px}
+.study h1{font-family:var(--serif);font-weight:500;font-size:36px;margin:0 0 6px}.study .sub{color:var(--muted);margin:0 0 20px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+select{padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.count{color:var(--muted);font-size:14px}
+.card{perspective:1200px;margin-bottom:16px}
+.card-in{position:relative;min-height:260px;transition:transform .45s;transform-style:preserve-3d;cursor:pointer}
+.card.flip .card-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:44px 28px 24px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.face.back{transform:rotateY(180deg);background:var(--accent-soft);border-color:transparent}
+.face small{color:var(--muted);position:absolute;top:16px;left:24px}
+.face .q{font-family:var(--serif);font-size:24px;line-height:1.35}.face .a{font-size:17px;line-height:1.55}
+.ctrl{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.opt{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:10px 0}
+.opt:hover:not(:disabled){border-color:var(--accent)}.opt.ok{background:var(--good-soft);border-color:var(--good)}.opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.qtext{font-family:var(--serif);font-size:24px;line-height:1.35;margin:8px 0 12px}
+.why{background:var(--accent-soft);border-radius:10px;padding:12px 16px;margin:14px 0}
+.score{font-family:var(--serif);font-size:56px;margin:8px 0}
+[hidden]{display:none!important}
+@media (max-width:860px){.shell{grid-template-columns:1fr;gap:0}.side{position:fixed;inset:0;top:calc(env(safe-area-inset-top,0px) + 56px);background:var(--bg);max-height:none;padding:20px;z-index:15;display:none}.side.open{display:block}.menu-btn{display:inline-block}.tabs{margin-left:0}.top-in{gap:8px;padding:8px 12px}.topic h2{font-size:26px}.brand{font-size:17px}}
+
+/* ===== Responsive layer (layout only; content unchanged) ===== */
+:root{--hdr:56px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--hdr) + 16px)}
+html,body{width:100%}
+body{overflow-x:clip;overflow-wrap:anywhere;word-break:normal}
+img,video,iframe,svg{max-width:100%;height:auto}
+button,select,input{max-width:100%}
+button,.btn,.tab,.icon-btn,.opt,select,.search{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn,.icon-btn,.tab,select,.search{min-height:44px}
+.opt{min-height:48px}
+input,select,textarea{font-size:16px}
+.topic,.sc,.study,.shell,.hub,.top-in,.intro{min-width:0}
+.shell>div{min-width:0}
+.top-in{flex-wrap:nowrap}
+.brand{overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;min-width:0;flex:0 1 auto}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none}
+.side{max-height:calc(100vh - var(--hdr) - 30px);max-height:calc(100dvh - var(--hdr) - 30px);top:calc(env(safe-area-inset-top,0px) + var(--hdr) + 16px);overscroll-behavior:contain}
+.nav a{min-height:40px}
+.tw{max-width:100%;-webkit-overflow-scrolling:touch}
+.topic table{min-width:460px}
+th,td{overflow-wrap:break-word}
+td:first-child{white-space:normal;min-width:110px}
+.topic p,.topic ul,.topic ol,.lead,.note{max-width:100%}
+.topic-hd>div{min-width:0;flex:1 1 220px}
+
+/* Flashcard: grow with content instead of clipping long answers */
+.card-in{display:grid;min-height:260px}
+.face{position:relative;inset:auto;grid-area:1/1;min-height:260px;overflow:visible}
+.face .q,.face .a{overflow-wrap:anywhere}
+
+/* Large screens */
+@media (min-width:1500px){
+  .top-in,.shell{max-width:1360px}
+  .hub{max-width:1100px}
+  .study{max-width:780px}
+}
+/* Tablets / small laptops */
+@media (max-width:1100px) and (min-width:861px){
+  .shell{grid-template-columns:230px minmax(0,1fr);gap:28px}
+}
+/* Tablets and below */
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0;padding:20px 14px 56px}
+  .side{position:fixed;left:0;right:0;bottom:0;top:calc(env(safe-area-inset-top,0px) + var(--hdr));max-height:none;height:auto;padding:16px 14px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto;z-index:15}
+  .menu-btn{display:inline-block}
+  .tabs{margin-left:0}
+  .top-in{gap:8px;padding:8px 12px}
+  .intro h1{max-width:none}
+  .prog{align-items:flex-start;flex-wrap:wrap;margin-bottom:24px}
+  .bar{flex:1 1 140px}
+  .topic{padding:22px 18px}
+  .topic-hd{gap:10px}
+  .topic-hd .btn{flex:0 0 auto}
+  .study{padding:24px 14px 56px}
+  .study h1{font-size:clamp(28px,7vw,36px)}
+  .subs{grid-template-columns:minmax(0,1fr);gap:14px}
+  .sc{padding:22px}
+}
+/* Phones */
+@media (max-width:560px){
+  body{font-size:15px}
+  .top-in{gap:6px;padding:6px 10px}
+  .brand{font-size:16px;line-height:1.1}
+  .menu-btn,.icon-btn{padding:7px 10px;font-size:13px}
+  .tab{padding:7px 9px;font-size:13px}
+  .hub{padding:28px 14px 56px}
+  .hub>p{font-size:16px}
+  .sc .code{font-size:38px}
+  .stats{gap:12px}
+  .topic h2{font-size:24px}
+  .lead{font-size:17px}
+  .topic{padding:18px 14px;border-radius:12px}
+  .topic ul,.topic ol{padding-left:20px}
+  th,td{padding:9px 10px;font-size:14px}
+  .row{gap:8px}
+  .row select{flex:1 1 130px;width:100%;min-width:0}
+  .row .btn{width:100%}
+  .card-in,.face{min-height:230px}
+  .face{padding:44px 18px 20px}
+  .face small{left:18px}
+  .face .q,.qtext{font-size:21px}
+  .face .a{font-size:16px}
+  .ctrl{gap:8px}
+  .ctrl .btn{flex:1 1 auto}
+  .opt{padding:12px}
+  .score{font-size:46px}
+}
+/* Very small phones */
+@media (max-width:380px){
+  .brand{font-size:14px}
+  .menu-btn,.icon-btn{padding:6px 7px;font-size:12px}
+  .tab{padding:6px 7px;font-size:12px}
+  .top-in{gap:4px;padding:6px 8px}
+  .topic{padding:16px 12px}
+  .topic table{min-width:420px}
+}
+/* Short landscape phones */
+@media (max-height:500px) and (orientation:landscape){
+  .card-in,.face{min-height:180px}
+  .face{padding:36px 20px 14px}
+  .face .q{font-size:20px}
+  .hub{padding-top:20px}
+}
+/* Notches */
+body{padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+</style></head><body>
+<header class="top"><div class="top-in">
+<button class="icon-btn menu-btn" id="menuBtn" aria-label="Toggle topic list" aria-expanded="false">Topics</button>
+<button class="brand" id="home" aria-label="Back to home">Reviewer Hub</button>
+<div class="tabs" id="tabs" role="tablist" hidden>
+<button class="tab" role="tab" data-view="read" aria-selected="true">Read</button>
+<button class="tab" role="tab" data-view="cards" aria-selected="false">Flashcards</button>
+<button class="tab" role="tab" data-view="quiz" aria-selected="false">Quiz</button></div>
+<span class="spacer"></span><button class="icon-btn" id="themeBtn" aria-label="Switch light or dark theme">Theme</button></div></header>
+<section id="hubView" class="hub"><h1>Pick a reviewer</h1><p>Read the lessons, drill flashcards, then test yourself. Your progress is saved in this browser.</p><div class="subs" id="subs"></div></section>
+<main id="readView" class="shell" hidden><aside class="side" id="side"><input class="search" id="search" type="search" placeholder="Search the reviewer" aria-label="Search the reviewer"><nav class="nav" id="nav"></nav></aside>
+<div><section class="intro"><h1 id="subTitle"></h1><p id="subDesc"></p><div class="prog"><div class="bar"><i id="barFill"></i></div><span id="progText"></span></div></section><div id="topics"></div></div></main>
+<section id="cardsView" class="study" hidden><h1>Flashcards</h1><p class="sub">Tap the card or press Space to flip. Arrow keys move. Mark each card so you can drill the hard ones.</p>
+<div class="row"><select id="cardTopic" aria-label="Filter by topic"></select><select id="cardMode" aria-label="Which cards"><option value="all">All cards</option><option value="review">Only “Review again”</option></select></div>
+<div class="row"><span class="count" id="cardCount"></span><span class="count" id="cardStat"></span></div>
+<div class="card" id="card"><div class="card-in" id="cardIn" tabindex="0" role="button" aria-label="Flip card"><div class="face"><small>Question</small><div class="q" id="cardQ"></div></div><div class="face back"><small>Answer</small><div class="a" id="cardA"></div></div></div></div>
+<div class="ctrl"><button class="btn" id="prevCard">Previous</button><button class="btn" id="shuffleCard">Shuffle</button><button class="btn pri" id="nextCard">Next</button></div>
+<div class="ctrl"><button class="btn" id="reviewBtn">Review again</button><button class="btn pri" id="knowBtn">I know this</button></div>
+<button class="btn" id="resetCards">Reset marks</button></section>
+<section id="quizView" class="study" hidden><h1>Quiz</h1><p class="sub">Multiple choice, with the right answer explained after each question.</p>
+<div class="row"><select id="quizTopic" aria-label="Topic"></select><select id="quizN" aria-label="Number of questions"><option value="10">10 questions</option><option value="20">20 questions</option><option value="40">40 questions</option><option value="0">All questions</option></select><button class="btn pri" id="startQuiz">Start quiz</button></div><div id="quizBody"></div></section>
+<script>
+var H=function(x){return{t:"h",x:x}},P=function(x){return{t:"p",x:x}},UL=function(x){return{t:"ul",x:x}},OL=function(x){return{t:"ol",x:x}},N=function(x){return{t:"note",x:x}},T=function(h,r,q){return{t:"table",h:h,r:r,q:q}};
+var SUBJECTS={
+uts:{code:"UTS",name:"Understanding the Self",desc:"Unit 2 (the six selves) and Unit 3 (managing and caring for the self).",topics:[
+{id:"physical",g:"Unit 2",unit:"Unit 2, Topic 1",title:"The Physical Self",lead:"The physical self is your body, the part of you that people can see. It has a big effect on self-esteem, which is how much you value and accept yourself.",blocks:[
+H("Self-esteem and the body"),UL(["Self-concept is what you know about yourself, including your ability to care for your own needs.","Gordon (2000) lists four components of self-esteem: a sense of **identity**, **belonging** (connectedness), **uniqueness**, and **self (power)**.","Marshall (1989): low self-image is linked to poor mental health, poor academic achievement, and delinquency.","Self-image is based on how society views individuals, and the quality of human interactions is essential."]),
+H("The biological blueprint"),T(["Term","Meaning"],[["Heredity","Transmission of traits from parents to offspring"],["Genotype","Information embedded in your genes; not every genotype shows physically"],["Phenotype","The physical expression of a trait"],["Chromosomes","23 pairs; the 23rd pair (sex chromosomes) determines sex"],["DNA","Nucleic acid in chromosomes holding genetic instructions"],["Maturation","Completion of growth of a genetic character; unfolding of inherent potential"]]),
+H("Environmental conditioning"),UL(["Family is the first social group and the foundation of development.","Larger social groups bring new standards, so people act to be attractive and acceptable.","Media shows slim bodies as ideal for women and muscular bodies for men; some adolescents use unhealthy habits to reach them.","Beauty is skin-deep: what matters is feeling good and holding a healthy view of your worth."]),
+H("How beauty is defined around the world"),T(["Place","Ideal"],[["Ethiopia (Karo)","Body scars cut on women’s stomachs in childhood"],["Kenya (Masai)","Long stretched earlobes, shaved heads"],["Burma and Thailand (Kayan)","Long necks from brass coils added yearly from age 5"],["China, Thailand, Japan","Pale skin as a sign of affluence"],["New Zealand (Maori)","Face tattoos (Tamoko)"],["Mauritania","Full figures"],["Iran","Surgical bandages; rhinoplasty as social status"],["India","Decorated skin: nose rings, bindis, henna, kumkum"],["Japan","Stick-straight hair"]],"What is the beauty ideal in {0}?"),
+H("Achieving physical well-being"),OL(["Healthy eating","Embracing a healthy lifestyle (walking, running, gym, sports)","Maintaining proper hygiene","Being confident: loving and accepting who you are"])]},
+{id:"sexual",g:"Unit 2",unit:"Unit 2, Topic 2",title:"The Sexual Self",lead:"Sexual self-concept is the totality of yourself as a sexual being. Anna Freud: “Sex is something you do. Sexuality is something you are.”",blocks:[
+P("Three dimensions: **sexual self-esteem**, **sexual depression**, and **sexual preoccupation**. Attachment style moderates sense-of-self and the relationships we tend to get into."),
+H("Primary vs. secondary sexual characteristics"),T(["","Primary","Secondary"],[["What","Directly involved in reproduction (sex organs)","Appear at puberty; not used in reproduction"],["When","Present from birth; grow in puberty","Emerge during puberty"],["Purpose","Reproduction","Attract a mate or help care for offspring; distinguish the sexes"],["Examples","Penis, vagina, testes, ovaries","Breasts, body hair, voice change, muscle growth, wider hips"]]),
+UL(["Sex is set by chromosomes: an X sperm gives ovaries (female); a Y sperm gives testes (male) (Reid, 2018).","Hormones secreted through the hypothalamus start secondary traits.","Boys: voice changes after some pubic hair appears; muscles grow markedly; sebaceous glands can cause acne.","Girls: hips widen, then breasts develop, then pubic hair; axillary hair appears after menarche; the voice becomes fuller."]),
+H("Libido and the sexual response"),UL(["**Libido** is overall sexual drive. It is influenced by biological, psychological, and social factors: hormones, work and family, personality and stress, medical conditions, medications, pregnancy, relationship issues.","A person with no sexual feelings at all may be asexual."]),
+H("The brain’s four levels"),T(["Level","Function"],[["Brain stem","Oldest structure; primitive responses; circuits for love/attachment, joy, sexual excitement"],["Hypothalamus","Regulates hormones; controls the pituitary (master gland); links endocrine and nervous systems"],["Limbic system","Learning, memory, emotion. Amygdala links experiences to emotions; hippocampus stores event memories"],["Cerebral cortex","Neocortex; thinking, speech, decision-making, sensory processing"]],"What is the function of the {0}?"),
+P("Lobes: **frontal** (cognition, voluntary movement), **parietal** (temperature, taste, touch, movement), **temporal** (memories with sensations), **occipital** (vision). The corpus callosum connects the hemispheres."),
+H("Premarital sex and love"),UL(["Module-listed consequences: early or unwanted pregnancy, societal gossip and condemnation, STI and HIV/AIDS risk, and a moral or religious concern.","Ways to avoid it: educate yourself, weigh consequences, seek guidance from parents and school.","Three levels of romantic love: **lust, attraction, attachment**."]),
+H("Sexually transmitted infections"),P("WHO estimates over 1 million people get an STI every day. “STI” is preferred over “STD” because infection may not cause obvious disease, and most people have no symptoms. Untreated STIs can cause cervical cancer, liver disease, PID, infertility, and pregnancy problems."),
+T(["STI","Cause","Key points"],[["Chlamydia","Bacterium","Often no symptoms; antibiotics; untreated can cause PID and infertility"],["Genital warts","HPV virus","Can lead to cervical and other cancers; screening and HPV vaccines"],["Gonorrhea","Bacterium","Yellow/green discharge, burning urination; antibiotics"],["Herpes","Virus (HSV-1, HSV-2)","Painful blisters; no cure; antivirals reduce outbreaks; spreads even without visible sores"],["HIV","Virus","Causes AIDS; testing is routine care"],["Syphilis","Bacterium","Primary (chancres), secondary (rash, hair loss), latent stages; antibiotics"],["Chancroid","Bacterium","Genital sores, swollen groin lymph nodes; antibiotics"],["Hepatitis A, B, C","Viruses","Liver inflammation; vaccine for A and B, none for C"],["Pubic lice","Lice","Intense itching; over-the-counter treatment; wash bedding in hot water"],["Trichomoniasis","Protozoa","Foamy, foul-smelling discharge; antibiotics"]]),
+H("Responsible sexual behavior"),OL(["Respect for one’s body","Maturity in thoughts and deeds","Being guided by personal beliefs and core values","Being future-oriented"]),
+P("**Sex vs. gender:** biological sex is assigned at birth from physical features; gender is an identity that is learned and embraced. Gender roles are societal expectations of how men and women act."),
+N("Not in the module. Check your class notes for: four phases of the sexual response cycle, erogenous zones, reproductive system parts, contraception and family planning.")]},
+{id:"nervous",g:"Unit 2",unit:"Unit 2, Topic 2 (slides)",title:"The Nervous System",lead:"A network of nerve cells (neurons) that sends messages between all parts of your body. It controls movement, feelings, thinking, behavior, and memory.",blocks:[
+P("Two cell types: **neurons** and **glial cells**."),H("Parts of a neuron"),T(["Part","Role"],[["Axon","Long; conducts impulses away from the cell body"],["Dendrites","Short; receive impulses and conduct them toward the cell body"],["Cell body","Main body of the nerve cell"],["Myelin sheath","Covering around the axon"],["Node of Ranvier","Gap in the myelin sheath"]]),
+H("Two types of neurons"),T(["Type","Also called","Direction"],[["Efferent","Motor, descending","CNS to peripheral tissues, instructing them"],["Afferent","Sensory, ascending","Peripheral tissues to CNS, carrying sensory information"]]),
+H("Divisions"),UL(["**CNS**: integration and command center of the body.","**PNS**: conduit between CNS and body; 12 pairs of cranial nerves and 31 pairs of spinal nerves.","**Somatic** (voluntary): voluntary movement and sensation from skin, muscles, joints.","**Autonomic** (involuntary): visceral motor fibers only; sympathetic and parasympathetic systems."])]},
+{id:"material",g:"Unit 2",unit:"Unit 2, Topic 3",title:"The Material Self",lead:"The material self is made of tangible objects, people, or places you call “mine” (William James). Possessions extend the self, hence “I shop, therefore I am.”",blocks:[
+H("Four functions of possessions"),T(["Function","What it does","Example"],[["Instrumental","Serves a practical purpose","A van for family and business"],["Social symbolic","Signals qualities, standing, group, gender role","Choosing an iPhone over other brands"],["Categorical","Communicates group membership and status","A condo in Makati City"],["Self-expressive","Shows unique qualities, values, attitudes","Collecting Hello Kitty items"]]),
+H("Needs, wants, utility, significance"),UL(["**Needs** are for survival (food, clothing, shelter); **wants** are luxuries.","People weigh **utility** (practical purpose) and **significance** (assigned meaning).","Roland Barthes (semiology): people assert identity through objects, which also signal relationships and status.","Biological view: hypothalamus “I need that,” amygdala “I want this,” prefrontal cortex checks."]),
+H("Freud: id, ego, superego"),T(["Part","Principle","Role"],[["Id (“it”)","Pleasure principle","From birth; impulsive drives (hunger, thirst, sex); wants immediate gratification"],["Ego (“I”)","Reality principle","Rational, conscious; balances id, reality, and superego"],["Superego (“over-I”)","Morality","Learned values from parents and society; strives for perfection; guilt or pride"]]),
+H("Maslow’s hierarchy (bottom to top)"),OL(["**Physiological**: breathing, food, water, sex, sleep, homeostasis, excretion","**Safety**: safe area, financial reserves, job security, good health","**Love and belonging**: family, friendship, sexual intimacy","**Esteem**: self-respect and achievement (internal); status, reputation, recognition (external)","**Self-actualization**: full potential; never fully satisfied because people keep growing"]),
+P("Lower needs must be satisfied before higher ones. Maslow created the hierarchy in 1954 (*Motivation and Personality*)."),
+H("The endowment effect"),UL(["People value what they own more than identical things they don’t own; owners demand more to sell than they would pay to buy.","Identified by economist **Richard Thaler**; closely tied to **loss aversion**.","Causes: psychological ownership, loss aversion, familiarity, identity.","Examples: a free mug you refuse to sell cheaply; homeowners overvaluing their houses.","Effects: irrational financial decisions, hoarding unused items, reluctance to compromise, market inefficiency."]),
+N("Not in the module. Check your class notes for: the signs of a materialistic person and ways to avoid materialism.")]},
+{id:"spiritual",g:"Unit 2",unit:"Unit 2, Topic 4",title:"The Spiritual Self",lead:"Spirituality is the third aspect of the whole person, beside the physical and psychological: an ongoing personal journey of seeking meaning and connection to the self, others, nature, and the sacred.",blocks:[
+H("Spirituality vs. religiosity"),T(["Aspect","Spirituality","Religiosity"],[["Focus","Individual","Communal"],["Meaning","Personal quest for meaning, compassion, service, inner peace","Following a belief system, its practices, and a specific community"],["Needs a religion?","No, possible without any religion","Yes, includes set practices and rules"]]),
+P("A person can be spiritual without being religious. People are not born spiritual; it is acquired through personal, social, and environmental factors."),
+H("Definitions"),T(["Author","Idea"],[["Puchalski (2014)","Seeking meaning and connection to self, others, the moment, and the sacred"],["Beauregard and O’Leary (2007)","Experience that brings contact with the divine"],["Sinnott (2002)","Personal relation to the sacred that informs other relationships and life’s meaning"],["Myers et al. (2000)","Private beliefs that transcend the material and give wholeness"]],"How did {0} define spirituality?"),
+H("Four stages (Wallas)"),OL(["**Anything Goes**: manipulative, self-serving, narcissistic","**Rigid**: firm external rules; a legalistic, punishing God","**Questioning**: what seemed untouchable is challenged; fear of falling back","**Free Flowing**: acceptance, peace, interconnectedness"]),
+P("Do not rush the stages; wanting to move quickly is often an ego need."),
+H("Nine sacred pathways"),T(["Pathway","Closest to God when…"],[["Naturalist","In creation: mountains, forests, oceans"],["Intellectual","Learning something new about Him"],["Ascetic","Alone in solitude and simplicity"],["Sensate","Senses come alive in worship"],["Activist","Standing up for justice"],["Caregiver","Serving the needy, sick, lonely"],["Contemplative","Adoring Him; emotions awakened"],["Enthusiast","Celebrating with mystery and joy"],["Traditionalist","Participating in ritual and symbol"]],"When is the {0} closest to God?"),
+H("Frankl’s meaning triangle"),UL(["**Creative**: what you give to life (a work or deed)","**Experiential**: what you take from life (experiences, encounters)","**Attitudinal**: your attitude toward unavoidable suffering; the last human freedom is choosing your attitude"]),
+P("**Carrot, egg, coffee bean:** boiling water softens the carrot, hardens the egg’s inside, but the coffee bean changes the water."),
+H("Nature, well-being, life satisfaction"),UL(["**Affinity with nature**: emotional ties; nature connectedness means nature is part of your identity.","**Ecopsychology**: transpersonal relationship with nature; contact with nature can heal.","**Well-being**: inner construct tied to self-esteem; **life satisfaction**: general attitude toward life (Diener et al., 1999).","High well-being: effective self-perception, realistic self-esteem, behavior control, true perception of the world, sustained relationships, self-direction."])]},
+{id:"political",g:"Unit 2",unit:"Unit 2, Topic 5",title:"The Political Self",lead:"Understanding yourself as a Filipino. Claro M. Recto: nationalism is nourished by a sense of history. Audre Lorde: caring for yourself is “an act of political warfare.”",blocks:[
+H("Who is a Filipino? (1987 Constitution, Art. IV, Sec. 1)"),UL(["Born in the Philippines","Parents are citizens of the Philippines","Born before January 17, 1973, of Filipino mothers who elect citizenship at majority age","Naturalized in accordance with law"]),P("Citizenship alone isn’t enough; values and traits must be manifested."),
+H("Filipino values"),T(["Value","Meaning"],[["Utang na loob","Gratitude for a favor; a debt never fully paid, can last generations"],["Hiya","Dependence on what others think; social approval and belonging"],["Bahala na","Leaving the rest to a higher power for what you can’t control"],["Bayanihan","Helping others in the community without payment"],["Compadre system","Friends get priority for favors like jobs or promotions"]],"What does {0} mean?"),
+H("What shapes Filipino identity"),OL(["**Family**: first world of a child","**School**: crystallizes home values; at least 17 years for a degree","**Church**: spiritual influence on views and actions","**Peer group**: “tell me who your friends are…”","**Media**: about 4 h 12 min daily on social media vs. 2 h 16 min global (Adel, 2019)"]),
+H("Politics and active citizenship"),UL(["Politics concerns power; it depends on context; the political is personal. Aristotle: man is a political animal.","**Active citizenship**: structured and everyday participation in decisions affecting you and your community; a practice of democracy; aims to influence society.","It builds belonging and, for youth, efficacy, integrity, compassion, and a sense of justice.","**Nationalism**: identification with one’s nation and support for its interests."])]},
+{id:"digital",g:"Unit 2",unit:"Unit 2, Topic 6",title:"The Digital Self",lead:"Your digital self is the personality you use online. It may differ from your real-world self or match it. Daniel Goleman: digital overload wears out self-control.",blocks:[
+H("Evaluating your profile (Me on FB)"),UL(["**Online behavior**: up to date? regular and consistent posts?","**Online voice**: controversial, contentious, inappropriate? adding value?","**Online presentation**: fonts, styles, and images; professional visual image?"]),
+H("Key concepts"),T(["Term","Meaning"],[["Digital natives","Millennials, born in an era of rapid technological change"],["Digital citizenship","Responsible tech use; 3 principles: respecting, educating, protecting self and others"],["Online disinhibition","Less restraint online than in person"],["Benign disinhibition","Sharing more than usual, or going out of your way to help"],["Toxic disinhibition","Rudeness, bullying, threats, visiting violent or pornographic sites"],["Online disembodiment","No physical presence, so people show fewer real selves to strangers"],["Role identity","Roles you take as a member of a social group"]]),
+H("Responsible online behavior"),OL(["Don’t post anything that will embarrass you","Avoid posting under strong emotions","Avoid the “wrong crowd” online and offline","Don’t overshare confidential information","Respect others online"])]},
+{id:"student",g:"Unit 3",unit:"Unit 3, Topic 1",title:"Learning to Be a Better Student",lead:"Study smarter, not harder: combine time management, study habits, self-discipline, and self-efficacy.",blocks:[
+P("**Self-efficacy** (Albert Bandura, Social Cognitive Theory) is your belief in your capacity to carry out the behaviors needed for specific performance goals."),
+H("Five sources of self-efficacy"),T(["Source","Meaning"],[["Mastery experience","Success from dedicated effort on realistic, challenging goals; learn from failure"],["Vicarious experience","Learning from role models; seeing similar people succeed"],["Social persuasion","Others directly influencing you; the right mentor"],["Emotional states","Arousal such as anxiety changes beliefs about ability"],["Imaginal experiences","Visualizing success (Maddux, 2013)"]]),
+H("Three zones"),UL(["**Panic zone**: beyond your abilities; lowers self-efficacy","**Comfort zone**: skillful, but no growth","**Stretch zone**: challenging but possible; builds self-efficacy"]),
+H("Improving self-efficacy"),OL(["Set goals above your abilities (stretch zone)","Break goals into small pieces","Focus on the main goals","Think positive","Take control of your life"]),
+H("Study habits"),OL(["Plan a fixed study schedule","Never cram; space sessions","Set a specific objective for each session","Don’t procrastinate","Start with the most difficult subject","Remove distractions","Join study groups","Review notes over the weekend"])]},
+{id:"goals",g:"Unit 3",unit:"Unit 3, Topic 2",title:"Setting Goals for Success",lead:"Motivation is the set of psychological forces that determine the direction, effort, and persistence of behavior (Osland et al., 2007).",blocks:[
+UL(["**Intrinsic** motivation: you enjoy the activity itself.","**Extrinsic** motivation: you act for consequences such as money or gifts."]),
+H("Theories of motivation"),T(["Theory","Key idea"],[["Maslow","Needs form a hierarchy; satisfy lower before higher"],["McClelland","Three motives: affiliation, power, achievement"],["Reinforcement (Skinner)","Rewarded behavior continues; operant conditioning"],["Goal-setting (Locke)","Clear goals spark motivation"]],"What is the key idea of {0}?"),
+H("McClelland’s three needs"),T(["Motive","Traits"],[["Affiliation","Wants to belong and be liked; prefers collaboration; dislikes risk"],["Power","Wants to influence others; likes competition and status. Personal power controls people; institutional power organizes teams"],["Achievement","Sets challenging goals; calculated risks; wants feedback; often works alone"]],"What are the traits of the {0} motive?"),
+H("Locke’s findings"),OL(["Specific goals increase performance","Accepted difficult goals raise performance","Feedback beats no feedback","People commit to goals that are public and self-set"]),P("Goals should be challenging but feasible.")]},
+{id:"health",g:"Unit 3",unit:"Unit 3, Topic 3",title:"Taking Charge of Your Health",lead:"Health is complete physical, mental, and social well-being, not merely the absence of disease (WHO, 2001).",blocks:[
+H("Stress and the body"),UL(["Fight-or-flight: the sympathetic system releases epinephrine and norepinephrine.","The pituitary releases ACTH, which prompts the adrenal cortex to release glucocorticoids, mainly **cortisol**.","Prolonged stress harms organs, mental function, and the immune system."]),
+H("Three perspectives on health (Rice)"),T(["Perspective","Idea"],[["Biomedical","Anatomy, germ theory, genetics"],["Psychosocial","Psychological and social processes affect illness"],["Biopsychosocial (Engel, 1977)","Biological, psychological, and social influences combined"]],"What is the {0} perspective?"),
+UL(["**Type A** behavior is linked to coronary heart disease (Friedman and Rosenman, 1974).","Hostile people show bigger heart rate, blood pressure, and hormone spikes under stress (Smith)."]),
+H("Coping"),UL(["**Eustress** is positive stress; **distress** is negative.","Coping manages the problem and regulates the emotions (Lazarus and Folkman, 1984).","**Resilience** is bouncing back from hard times."]),
+T(["Style","Description"],[["Avoidance coping","Denying illness or stress; linked to worse health outcomes"],["Positive coping","Seeking support, talking it out, finding meaning; better outcomes"]],"What is {0}?"),
+H("Self-compassion (Abrams, 2017)"),OL(["Treat yourself as you would a small child","Practice mindfulness","Remember you are not alone","Give yourself permission to be imperfect"]),P("Self-soothing uses the five senses: smell, sight, hearing, taste, touch.")]},
+{id:"people",g:"Reference",unit:"Reference",title:"Who Said What",lead:"The names most likely to show up on an exam.",blocks:[
+T(["Person","Contribution"],[["Anna Freud","“Sex is something you do. Sexuality is something you are.”"],["William James","Material self: things called “mine”"],["Roland Barthes","Semiology; identity through objects"],["Sigmund Freud","Id, ego, superego"],["Abraham Maslow","Hierarchy of needs (1954)"],["Richard Thaler","Endowment effect"],["Wallas","Four stages of spirituality"],["Victor Frankl","Meaning triangle"],["Claro M. Recto","Nationalism and history"],["Aristotle","Man is a political animal"],["Albert Bandura","Self-efficacy"],["James Maddux","Imaginal experiences"],["Edwin Locke","Goal-setting theory"],["McClelland","Affiliation, power, achievement"],["Skinner","Operant conditioning"],["Engel (1977)","Biopsychosocial model"],["Friedman and Rosenman","Type A behavior"],["Lazarus and Folkman","Functions of coping"],["Gordon (2000)","Four components of self-esteem"]],"What is {0} known for?")]}
+]},
+itc:{code:"ITC",name:"Information Technology & Computing",desc:"Latest trends and issues, computer ethics and ACM, Internet of Things, the internet and ICT in society.",topics:[
+{id:"issues",g:"Module 3",unit:"Module 3.1",title:"Trends & Issues in IT",lead:"Computers and the internet bring huge benefits, but they also create social problems every user should understand.",blocks:[
+H("Social issues in information technology"),T(["Issue","What it means"],[["Communication breakdown","Devices replace face-to-face talk, even inside families; texting while driving makes you a distracted driver"],["Defamation of character","False, harmful statements spread publicly on social media, leading to arrests and lawsuits"],["Identity theft","Personal details of innocent people are harvested and used for illicit online transactions"],["Cyber bullying","Attacking people through anonymous platforms; harder to detect than traditional bullying"],["Gaming addiction","Addiction to video games that affects all ages and causes social and financial problems"],["Privacy","Risk of oversharing in chat rooms, message boards, e-commerce and social media; employers check profiles"],["Plagiarism (education)","Copying online text without crediting the source; schools punish it hard"],["Terrorism and crime","Terrorists and criminals exploit the web; attackers can hide in countries with no extradition agreements"]],"What is {0}?"),
+P("**Digital wellbeing:** let technology improve your life instead of distracting you. Your life and others’ lives are more important than technology."),
+N("Tip: use privacy settings so employers and strangers cannot see all your details.")]},
+{id:"ethics",g:"Module 3",unit:"Topic 3.2",title:"Computer Ethics",lead:"Ethics is a system of moral principles. Unlike laws, which legally mandate right and wrong, ethics show society’s views about what is right and wrong.",blocks:[
+H("Key terms"),T(["Term","Meaning"],[["Ethics","A system of moral principles that affects how people make decisions; also called moral philosophy"],["Computer ethics","Moral standards that govern the use of computers, both hardware and software"],["Hacking","Identifying and exploiting weaknesses in a system or network to gain unauthorized access to data"],["Malware","Malicious software that impairs a computer system: viruses, spyware, worms and trojan horses"],["Data protection","Safeguarding data (information or data privacy) to balance individual privacy rights with business use"],["Anonymity","Keeping a user’s identity masked through various applications"],["Plagiarism","Copying and publishing another person’s work without proper citation"],["Cracking","Breaking into a system by getting past its security; skipping registration and authentication when installing software"],["Software license","Allows use of digital material under an agreement; ownership stays with the copyright owner"]],"What is {0}?"),
+H("Effects on society"),T(["Area","Effect"],[["Jobs","Some jobs abolished, others simpler; tasks that took many steps now take one click"],["Environment","More computer use means more energy use and more greenhouse gas emissions"],["Social life","Helps people stay in touch; gaming improves hand-eye coordination, stress relief and strategy, but can cause addiction, isolation and violence exposure"]],"What is the effect of computers on {0}?"),
+P("**Malware examples:** a virus can delete files from a hard drive; spyware can collect data from a computer.")]},
+{id:"acm",g:"Module 3",unit:"Topic 3.2",title:"Understanding the ACM",lead:"ACM, the Association for Computing Machinery, is the world’s largest educational and scientific computing society.",blocks:[
+UL(["Founded September 15, 1947 at Columbia University, New York, as the Eastern Association for Computing Machinery.","“Eastern” was dropped in January 1948; a constitution was instituted in September 1949.","Purpose: advance the science, development, construction and application of computing machinery; promote the highest professional and ethical standards."]),
+T(["Item","Description"],[["ACM","Unites computing educators, researchers and professionals; supports career growth and lifelong learning"],["Communications of the ACM","Monthly magazine sent to all members; articles, case studies, columns and blogs"],["ACM Queue","Monthly magazine by computing professionals that defines future problems"],["ACM Digital Library","Definitive online resource with ACM publications and over a million bibliographic citations; uses DOIs"],["ACM publications","Journals, newsletters, conference proceedings and curricula recommendations"]],"What is {0}?")]},
+{id:"iot",g:"Module 3",unit:"Topic 3.4",title:"Internet of Things",lead:"IoT connects everyday objects and sensors to the network so they can share data with little help from people.",blocks:[
+UL(["Also called Machine-to-Machine (M2M), Skynet or Internet of Everything.","Components: **sensors**, **connectivity**, and **people and processes**.","Why IoT: dynamic control of industry and daily life, better resource use, flexible configuration, acts as technology integrator, universal inter-networking."]),
+H("Key terms"),T(["Term","Meaning"],[["IoT","An ecosystem of connected physical objects accessible through the internet"],["M2M","Machine-to-Machine; another name for IoT"],["IoMT (medical)","Internet of Medical Things: IoT for health data collection, research and monitoring; “Smart Healthcare”"],["IIoT","Industrial IoT: devices that acquire and analyze data from connected equipment, locations and people"],["V2X","Vehicle-to-everything communication: V2V, V2I and V2P; first step to autonomous driving"],["V2V","Vehicle to vehicle communication"],["V2I","Vehicle to infrastructure communication"],["V2P","Vehicle to pedestrian communication"],["Internet of Packaging","QR codes or NFC tags with unique identifiers used to automate supply chains and let consumers access digital content"]],"What is {0}?"),
+H("Applications"),T(["Application","What it does"],[["Nest Learning Thermostat","Wi-Fi smart thermostat that learns your schedule and switches to energy-saving mode when nobody is home"],["Ring Video Doorbell","Smart doorbell with HD camera, motion sensor and two-way audio; works with the Neighbors app"],["August Home Smart Lock","Retrofit smart lock controlled by phone via Bluetooth and Wi-Fi; keyless entry and virtual guest keys"],["Smart home","Platform or hubs that control smart devices, such as Apple’s HomeKit"],["Elder care","Voice control and sensors that detect falls or seizures to give freedom and better quality of life"],["Transportation","Smart traffic control, smart parking, electronic toll collection, fleet management, road assistance"],["Infrastructure","Monitoring bridges, railway tracks and wind farms for changes that threaten safety"],["Songdo, South Korea","First fully equipped, wired smart city; about 70 percent of the business district done by June 2018"],["Energy management","Connected lamps, appliances, motors and pumps talk to utilities to balance power and optimize use"],["Environmental monitoring","Sensors track air and water quality, soil conditions and wildlife movement"],["Internet of Battlefield Things","U.S. Army Research Laboratory project; IoBT-CRA launched in 2017"],["Ocean of Things","DARPA program using about 50,000 floats with passive sensors to track vessels and environmental data"],["Agriculture","Collects data on temperature, rainfall, humidity, wind, pests and soil to automate and improve farming"],["Manufacturing","Smart cyber-physical space integrating devices with sensing, processing and communication"]],"What is {0} in IoT?"),
+H("Challenges and solutions"),UL(["**Challenges:** scalability, security, technical requirements, technological standardization, software complexity.","**Solutions:** open-source development for interoperability; government and industry standards so data is not misused; strong authentication, encrypted data and platforms that track network irregularities."])]},
+{id:"net",g:"Topic 4",unit:"Topic 4.1",title:"Internet Fundamentals",lead:"The internet is a worldwide system of interconnected computer networks that uses the standard TCP/IP protocol.",blocks:[
+UL(["Every computer is identified by a unique IP address, for example 110.22.33.114.","ARPANET was developed by the U.S. Department of Defense to link government bodies; it began with four nodes called hosts.","Technologies such as TCP/IP, DNS, WWW, browsers and scripting languages made the internet a medium to publish and access information."]),
+H("Timeline"),T(["Year","Event"],[["1961","MIT launched CTSS (Compatible Time-Sharing System), letting up to 30 people log in and contact each other"],["1969","The internet concept originated as ARPANET"],["1970s","Ray Tomlinson created a way to send messages between computers on ARPANET (email)"],["1972","ARPANET spread worldwide with 23 nodes and became known as the Internet"],["1978","Bulletin Board Systems (BBS) were invented"],["2000s","Skype and Facebook Messenger began the “Golden Era” of instant messaging"]],"What happened in {0}?"),
+H("Basic services"),T(["Service","Description"],[["Email","Electronic mail: sending messages across computer networks; examples are Outlook and web-based Gmail"],["Instant messaging","Real-time written communication between two or more people over internet-connected devices"],["Internet research","Accessing and evaluating information online; unlike library research it is decentralized and varies in credibility"],["Social media","Websites and apps for communication, sharing and collaboration, used also for marketing and customer service"]],"What is {0}?"),
+H("Uses of the internet"),P("Economic development, government services, education, healthcare, public safety, environmental sustainability, telework, urban revitalization, people with disabilities, and entertainment.")]},
+{id:"ict",g:"Topic 4",unit:"Topic 4.2",title:"ICT Applications in Society",lead:"ICT (information and communications technology) is an umbrella term for any communication device or application: radio, television, phones, computer and network hardware and software, satellites, and their services.",blocks:[
+T(["Field","How ICT is used"],[["Public administration","Government departments use ICT for planning, control and law enforcement: traffic, tourism, broadcasting, education, aviation"],["E-government","Strategies that promote transparency, efficiency and better relations with citizens"],["E-employment","Promotes teleworking so people can work anywhere, creating jobs for women and people with disabilities"],["Business","Boosts productivity and competitiveness in sales, marketing, retailing, banking and stock trading"],["E-procurement","Electronic purchase and sale of products and services through the internet and networking systems"],["E-tailing","Electronic retailing: selling retail goods through the internet"],["Education","Distance learning, video-based classes, and computers as research tools"],["E-learning","Learning at all levels, formal and non-formal, using an information network; web-based learning is a subset"],["Health and medicine","Digital prescriptions and records; ECGs and radiotherapy; e-Health and mobile telemedicine"],["Agriculture","Timely information for crop cultivation, water, pest management, harvesting, food safety and marketing"],["Science","The “Collaboratory” is an internet-based lab for researchers worldwide; also open access and peer-to-peer sharing"]],"What is the role of ICT in {0}?")]}
+]},
+eng:{code:"ENG",name:"English Language Proficiency",desc:"Levels of reading comprehension, plus Unit III Speaking, Unit IV Reading, Unit V Writing, and Unit VI Viewing.",topics:[
+{id:"e-rl",g:"Reading levels",unit:"Reading · L-I-E-A-P",title:"Levels of Reading for Comprehension",lead:"Reading is not just understanding words. Comprehension grows in 5 steps, and each step builds on the one before. Remember L-I-E-A-P: Literal, Inferential, Evaluative, Appreciative, Applied.",blocks:[
+H("The 5 levels"),
+P("Reading is not just understanding words. Comprehension grows in **5 steps**, and each step builds on the one before. Remember **L-I-E-A-P**: Literal, Inferential, Evaluative, Appreciative, Applied."),
+H("1. Literal – reading the lines"),
+UL(["The answer is written directly in the text. Ask: *Who? What? When? Where?*", "Example: “Maria woke up at 7:00 AM.” What time did she wake up? **7:00 AM**. No guessing needed."]),
+H("2. Inferential – between the lines"),
+UL(["The idea is implied. Combine clues in the text with what you already know. Ask: *Why? How? What will happen next?*", "Maria wears a uniform and walks to school, so she is a **student**."]),
+H("3. Evaluative – judging the text"),
+UL(["Decide if the text is true, fair, biased, or logical, and separate fact from opinion.", "“Walking is the best way to travel” is an **opinion**. The word “best” is biased."]),
+H("4. Appreciative – feeling the text"),
+P("Respond to mood, imagery, and feelings. “The sun peeked over green hills, painting the sky gold” creates a **peaceful, warm, hopeful** mood."),
+H("5. Applied – beyond the lines"),
+P("Connect the text to real life. Ask: *What lesson did I learn? How will I use it?* Applied reading is the **ultimate goal**."),
+H("Summary"),
+UL(["Literal = what it says. Inferential = what it means. Evaluative = is it true or fair? Appreciative = how does it feel? Applied = how can I use it?", "Note: Unit IV uses different names for similar ideas (Literal, Inferential, Critical, Creative, Valuing). Use the names your teacher asks for."]),
+H("Key terms"),
+T(["Term","Meaning"],[["Literal comprehension", "Understanding exactly what the text says. Key questions: Who? What? When? Where?"], ["Inferential comprehension", "Understanding ideas that are implied, not directly stated. “Reading between the lines.”"], ["Evaluative / critical comprehension", "Judging whether a text is true, fair, biased, or logical."], ["Appreciative comprehension", "Responding to the mood, imagery, and feelings in a text."], ["Applied / creative comprehension", "Using what you read in real life and new situations."], ["L-I-E-A-P", "Literal, Inferential, Evaluative, Appreciative, Applied"], ["Fact vs. opinion", "A fact can be proven. An opinion is a belief that others may disagree with."], ["Ultimate goal of reading", "Applied: reading changes how we live and act."]],"What is {0}?")]},
+{id:"e-sp",g:"Unit III",unit:"Unit III",title:"Speaking: Rhythm and Delivery",lead:"Speech rhythm is the pattern of sound, silence, stress, and intonation in speech. It includes diction (articulation + pronunciation), stress, phrasing, blending, and intonation.",blocks:[
+H("What is speech rhythm?"),
+P("Speech rhythm is the pattern of sound, silence, stress, and intonation in speech. It includes **diction** (articulation + pronunciation), **stress, phrasing, blending, and intonation**."),
+H("Word stress"),
+UL(["One syllable in a word is said louder, longer, and higher. Stress can change meaning:", "**PRE**-sent (noun, a gift) vs. pre-**SENT** (verb, to show).", "**RE**-cord (noun) vs. re-**CORD** (verb)."]),
+H("Sentence stress"),
+UL(["**Content words** carry meaning and are stressed: nouns, main verbs, adjectives, adverbs, question words, this/that, interjections.", "**Function words** are usually unstressed: pronouns, linking verbs, prepositions, conjunctions, articles.", "Example: She **BOUGHT** a **NEW** car.", "Moving the stress changes meaning: I didn’t **SAY** he stole the money."]),
+H("Elements of stress"),
+P("Stress is made of **loudness**, **higher pitch**, and **longer duration**."),
+H("Blending and phrasing"),
+UL(["**Blending** joins words so they sound smooth: take it, on the table, a cup of tea, rice and fish.", "**Phrasing** groups words into thought groups. One slash (/) is a short pause like a comma. Two slashes (//) is a longer pause like a period.", "After the meeting / we’ll go for lunch."]),
+H("Intonation"),
+UL(["Intonation is the rise and fall of the voice. Pitch levels: 1 Low (finality), 2 Normal, 3 High (stressed syllable), 4 Very high (strong emotion).", "**2-3-1** falling: statements, commands, requests, and questions that cannot be answered by yes/no.", "**2-3-3** rising: yes/no questions."]),
+H("Four modes of delivery"),
+UL(["**Impromptu**: little or no preparation.", "**Manuscript**: read word-for-word; accurate but can sound flat.", "**Extemporaneous**: prepared, uses notes or an outline, sounds conversational.", "**Memorized**: delivered from memory; strong eye contact but you may forget."]),
+H("Key terms"),
+T(["Term","Meaning"],[["Articulation", "Shaping speech sounds clearly and crisply."], ["Pronunciation", "Using the correct sounds and stressing the right syllables."], ["Content words", "Words that carry meaning and are stressed (nouns, main verbs, adjectives, adverbs)."], ["Function words", "Grammar words that are usually unstressed (articles, prepositions, pronouns, conjunctions)."], ["Elements of stress", "Loudness, pitch, and duration."], ["2-3-3 pattern", "Rising intonation, used for yes/no questions."], ["Impromptu delivery", "Speaking with little or no preparation."], ["Extemporaneous delivery", "Prepared and structured, delivered with notes or an outline in a natural tone."]],"What is {0}?")]},
+{id:"e-rd",g:"Unit IV",unit:"Unit IV",title:"Reading: Levels of Comprehension",lead:"Reading comprehension is the ability to understand and interpret written text. If you can read the words but do not understand them, you are not really reading.",blocks:[
+H("What is comprehension?"),
+P("Reading comprehension is the ability to understand and interpret written text. If you can read the words but do not understand them, you are not really reading."),
+H("Literal – reading the lines"),
+UL(["Facts that are stated: who, what, when, where. Skills: finding key details, the main idea, following instructions, and the order of events.", "Example: Who was the girl who lost the glass slipper?"]),
+H("Inferential – between the lines"),
+UL(["Ideas not directly stated. Use clues and background knowledge, and stay objective. Inferences can be **assumptions, conclusions, generalizations, or predictions**. A prediction is about future behavior.", "Careful: how and why questions are *literal* if the answer is directly stated."]),
+H("Critical – judging"),
+P("Judge the author’s purpose, bias, and style. Skills: cause and effect, fact vs. opinion, similarities and differences, classifying, synthesizing, summarizing."),
+H("Creative – new ideas"),
+P("Use imagination plus understanding to create something new, such as an alternate ending or a letter from a character."),
+H("Valuing – beyond the lines"),
+P("Apply ideas to real life. Look at the author’s philosophy and theme, and ask how values such as kindness and resilience apply to you."),
+H("Summary"),
+P("Literal (lines) → Inferential (between) → Critical (judge) → Creative (imagine) → Valuing (beyond the lines)."),
+H("Key terms"),
+T(["Term","Meaning"],[["Reading comprehension", "The ability to understand and interpret written text."], ["Literal level", "Understanding facts stated directly. “Reading the lines.”"], ["Inferential level", "Understanding ideas not directly stated. “Reading between the lines.”"], ["Critical level", "Making judgments about the author’s purpose, bias, and style."], ["Creative level", "Creating new ideas from what you read."], ["Valuing level", "“Reading beyond the lines”: applying the text’s values to life."], ["Four kinds of inference", "Assumptions, conclusions, generalizations, predictions."], ["Prediction", "A statement about future behavior or action."]],"What is {0}?")]},
+{id:"e-wr",g:"Unit V",unit:"Unit V",title:"Writing: The Argumentative Essay",lead:"An argumentative essay uses evidence and facts to support a claim. It appeals mostly to logic. The tone is formal and objective. The writer presents the other side, then answers it. You are not just convincing; you are proving.",blocks:[
+H("What is it?"),
+P("An argumentative essay uses **evidence and facts** to support a claim. It appeals mostly to logic. The tone is formal and objective. The writer presents the other side, then answers it. You are not just convincing; you are **proving**."),
+H("Qualities of a strong essay"),
+UL(["1. Clear thesis statement", "2. Strong, credible evidence", "3. Logical argumentation", "4. Counterarguments and refutations", "5. Good organization", "6. Persuasive tone", "7. Proper citation", "8. Compelling conclusion"]),
+H("Parts of the essay"),
+UL(["**Claim**: a statement of opinion (your thesis).", "**Argument**: an idea that supports the claim.", "**Evidence**: facts, statistics, examples, or expert opinions that support each argument.", "**Counterargument**: what a reader who disagrees would say.", "**Rebuttal**: your response to the counterargument.", "**Conclusion**: a convincing restatement of your claim."]),
+H("Structure"),
+UL(["1. Introduction with a thesis", "2. Body paragraphs (topic sentence, evidence, explanation, transitions)", "3. Counterargument and rebuttal", "4. Conclusion (restate thesis, summarize)", "5. Citations and references"]),
+H("Strong vs. weak example"),
+P("Essay 1 on regulating social media cites a study, answers the free-speech objection, and ends with a clear conclusion. Essay 2 uses vague words (“a lot of people”), gives no evidence, and has a weak rebuttal. Evidence and organization make the difference."),
+H("Key terms"),
+T(["Term","Meaning"],[["Argumentative essay", "An essay that uses evidence and logic to support a claim."], ["Claim", "A statement of opinion; your thesis."], ["Argument", "An idea that supports the claim."], ["Evidence", "Facts, statistics, examples, or expert opinions that support an argument."], ["Counterargument", "What a reader who disagrees with you would say."], ["Rebuttal", "Your response to the counterargument."], ["Conclusion", "A convincing restatement of the claim and the key points."], ["Tone of an argumentative essay", "Formal, objective, and neutral."]],"What is {0}?")]},
+{id:"e-vw",g:"Unit VI",unit:"Unit VI",title:"Viewing: Visual Media",lead:"Viewing is one of the five macro skills (listening, speaking, reading, writing, viewing). It is a receptive skill: you understand, interpret, evaluate, and respond to visual messages.",blocks:[
+H("What is viewing?"),
+P("Viewing is one of the five macro skills (listening, speaking, reading, writing, viewing). It is a **receptive skill**: you understand, interpret, evaluate, and respond to visual messages."),
+H("Types of visual media"),
+P("**Photo**: image captured by light. **Poster**: pictures and words that promote something. **Infographic**: images, charts, and text that explain data. **Cartoon**: simple, often humorous drawing. **Comics**: drawings in panels with speech bubbles. **Meme**: shared humorous image, video, or text. **Videos and films**: moving images with sound. Videos are usually shorter; films are longer with a structured plot."),
+H("Elements of visual media"),
+UL(["**Color**: grabs attention and sets mood. Red can signal urgency or passion; blue can feel calm or trusting.", "**Text**: gives clear details such as names, dates, and slogans.", "**Layout**: organizes elements and guides the viewer’s eye.", "**Images**: communicate ideas quickly; can be literal or symbolic.", "**Typography**: font style, size, and spacing; sets tone and readability."]),
+H("Summary"),
+P("All elements work together to deliver the message. A poor layout can make good content confusing."),
+H("Key terms"),
+T(["Term","Meaning"],[["Viewing", "A receptive skill: understanding and evaluating visual messages."], ["Infographic", "Combines images, charts, and text to make complex ideas easy to understand."], ["Meme", "A humorous image, video, or text shared widely online."], ["Comics", "Drawings in panels that tell a story, often with speech bubbles."], ["Color", "Attracts attention, creates mood, and conveys meaning without words."], ["Layout", "How elements are arranged to guide the viewer’s attention."], ["Typography", "Font style, size, and spacing; affects readability and tone."], ["Films vs. videos", "Films are longer with a structured plot; videos are usually shorter."]],"What is {0}?")]}]}
+};
+function md(s){
+  s=String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  return s.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*(.+?)\*/g,"<em>$1</em>");
+}
+function plain(s){return s.replace(/\*+/g,"")}
+function el(id){return document.getElementById(id)}
+function store(k,v){try{if(v===undefined){return JSON.parse(localStorage.getItem(k))}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+/* build flashcards and quiz questions from two-column tables */
+var NOREV={"Digital natives":1,"Ethics":1,"Public administration":1,"IoT":1,"ACM":1,"1961":1};
+function uniqueChoices(correct, candidates, limit){
+  var out=[], seen={};
+  [correct].concat(candidates).forEach(function(value){
+    value=String(value==null?"":value).trim();
+    if(value && !seen[value] && out.length<limit){seen[value]=1;out.push(value)}
+  });
+  return out;
+}
+function build(topics){
+  var items=[];
+  topics.forEach(function(t){t.blocks.forEach(function(b){
+    if(b.t==="table"&&b.h.length===2&&b.h[0]){
+      b.r.forEach(function(r){items.push({t:t.id,b:b,k:plain(r[0]),a:plain(r[1]),
+        q:b.q?b.q.replace("{0}",plain(r[0])):"What is the "+b.h[1].toLowerCase()+" of “"+plain(r[0])+"”?"})});
+    }
+  })});
+  var cards=[],quiz=[],all=items;
+  items.forEach(function(it){
+    var same=items.filter(function(x){return x.b===it.b&&x.a!==it.a});
+    var pool=same.length>=3?same:all.filter(function(x){return x.a!==it.a&&x.t===it.t});
+    if(pool.length<3)pool=all.filter(function(x){return x.a!==it.a});
+    cards.push([it.t,it.q,it.a]);
+    var choices=uniqueChoices(it.a,shuf(pool).map(function(x){return x.a}),4);
+    quiz.push([it.t,it.q,choices,0,it.k+": "+it.a]);
+    if(it.a.length<=130&&!NOREV[plain(it.b.r[0][0])]){
+      var rp=(same.length>=3?same:pool);
+      cards.push([it.t,"Which term or item matches: “"+it.a+"”?",it.k]);
+      var reverseChoices=uniqueChoices(it.k,shuf(rp).map(function(x){return x.k}),4);
+      quiz.push([it.t,"Which one matches: “"+it.a+"”?",reverseChoices,0,"The answer is “"+it.k+"”."]);
+    }
+  });
+  EXTRA.forEach(function(x){
+    if(topics.some(function(t){return t.id===x[0]})){
+      quiz.push([x[0],x[1],uniqueChoices(x[2],x[3].split("|"),4),0,x[4]]);
+    }
+  });
+  quiz=quiz.map(function(q){
+    var correct=q[2][0],options=shuf(uniqueChoices(correct,q[2].slice(1),4));
+    q[2]=options;q[3]=options.indexOf(correct);
+    return q;
+  });
+  return {cards:cards,quiz:quiz};
+}
+var EXTRA=[["physical", "Which is NOT one of Gordon’s four components of self-esteem?", "Intelligence", "Identity|Belonging|Uniqueness", "The four are identity, belonging, uniqueness, and self (power)."], ["physical", "How many pairs of chromosomes do humans have, and which pair decides sex?", "23 pairs; the 23rd pair", "46 pairs; the 1st pair|23 pairs; the 1st pair|46 pairs; the 23rd pair", "Humans have 23 pairs. The 23rd pair (sex chromosomes) determines sex."], ["sexual", "What are the three levels of romantic love?", "Lust, attraction, attachment", "Passion, intimacy, commitment|Lust, trust, marriage|Attraction, respect, loyalty", "The module lists lust, attraction, and attachment."], ["sexual", "Which brain part controls the pituitary (master) gland?", "Hypothalamus", "Hippocampus|Amygdala|Corpus callosum", "The hypothalamus regulates hormones and controls the pituitary."], ["sexual", "Which lobe of the brain is responsible for vision?", "Occipital", "Frontal|Parietal|Temporal", "Occipital = vision, frontal = thinking and voluntary movement, parietal = touch and taste, temporal = memories with sensations."], ["sexual", "Why is “STI” preferred over “STD”?", "An infection may cause no obvious disease, and most people have no symptoms", "STIs are never serious|STDs only affect adults|STI is a newer slang word", "Many infections show no symptoms, so “infection” is more accurate than “disease”."], ["material", "What is the order of Maslow’s hierarchy, from bottom to top?", "Physiological, safety, love and belonging, esteem, self-actualization", "Safety, physiological, esteem, love and belonging, self-actualization|Physiological, love and belonging, safety, esteem, self-actualization|Self-actualization, esteem, love and belonging, safety, physiological", "Lower needs must be met before higher ones."], ["material", "Which part of Freud’s personality follows the pleasure principle?", "Id", "Ego|Superego|Hypothalamus", "The id wants immediate gratification. The ego follows reality, and the superego follows morality."], ["material", "Who identified the endowment effect?", "Richard Thaler", "Abraham Maslow|William James|Roland Barthes", "Thaler identified it. It is closely tied to loss aversion."], ["spiritual", "What are Wallas’s four stages of spirituality, in order?", "Anything Goes, Rigid, Questioning, Free Flowing", "Rigid, Anything Goes, Free Flowing, Questioning|Questioning, Rigid, Anything Goes, Free Flowing|Free Flowing, Questioning, Rigid, Anything Goes", "The module lists them in this order."], ["spiritual", "In Frankl’s meaning triangle, which one is your attitude toward unavoidable suffering?", "Attitudinal", "Creative|Experiential|Intellectual", "Creative = what you give to life, experiential = what you take from life, attitudinal = your attitude toward suffering."], ["spiritual", "Which statement is true?", "A person can be spiritual without being religious", "People are born spiritual|Spirituality always needs a church|Religiosity is only a personal quest", "Spirituality is individual and possible without religion. It is acquired, not inborn."], ["political", "What is active citizenship?", "Taking part in decisions that affect you and your community", "Voting once every election and nothing else|Obeying laws without question|Owning property in your country", "Active citizenship means everyday and structured participation in your community."], ["digital", "What are the three principles of digital citizenship?", "Respecting, educating, protecting", "Sharing, liking, following|Posting, commenting, reporting|Creating, copying, deleting", "Responsible tech use means respecting, educating, and protecting yourself and others."], ["student", "Which zone builds self-efficacy?", "Stretch zone", "Panic zone|Comfort zone|Danger zone", "The stretch zone is challenging but possible. The panic zone lowers self-efficacy and the comfort zone gives no growth."], ["student", "Who developed the idea of self-efficacy?", "Albert Bandura", "Edwin Locke|Abraham Maslow|B.F. Skinner", "Bandura, in Social Cognitive Theory."], ["goals", "What are McClelland’s three motives?", "Affiliation, power, achievement", "Safety, esteem, belonging|Id, ego, superego|Creative, experiential, attitudinal", "Affiliation = belong, power = influence, achievement = challenging goals."], ["goals", "What is intrinsic motivation?", "Doing something because you enjoy the activity itself", "Doing something to earn money or gifts|Doing something because you are forced to|Doing something to be praised", "Acting for rewards or consequences is extrinsic motivation."], ["health", "Which hormone is the main glucocorticoid released during prolonged stress?", "Cortisol", "Epinephrine|Norepinephrine|ACTH", "The pituitary releases ACTH, which makes the adrenal cortex release cortisol."], ["health", "What is eustress?", "Positive stress", "Negative stress|Denying that you are stressed|Bouncing back from hard times", "Distress is negative stress. Bouncing back is resilience."], ["ethics", "How are ethics different from laws?", "Laws legally mandate right and wrong, while ethics reflect society’s views of right and wrong", "Ethics are legally enforced, laws are not|They mean exactly the same thing|Laws apply only to computers", "Ethics are moral principles. Laws are legal rules."], ["ethics", "Which of these is NOT malware?", "Firewall", "Spyware|Worm|Trojan horse", "Malware includes viruses, spyware, worms, and trojan horses. A firewall protects a network."], ["acm", "When was the ACM founded?", "September 15, 1947", "January 1948|September 1949|1961", "It began as the Eastern Association for Computing Machinery. “Eastern” was dropped in January 1948."], ["iot", "What are the three components of IoT?", "Sensors, connectivity, and people and processes", "Hardware, software, and firmware|Router, switch, and modem|Input, process, and output", "The module names sensors, connectivity, and people and processes."], ["net", "Which standard protocol does the internet use?", "TCP/IP", "Bluetooth|HDMI|USB", "The internet is a worldwide system of networks that uses TCP/IP."], ["net", "How many nodes (hosts) did ARPANET begin with?", "Four", "Ten|Twenty-three|Thirty", "It grew to 23 nodes by 1972."], ["net", "Who created a way to send email between computers on ARPANET?", "Ray Tomlinson", "Bill Gates|Vint Cerf|Steve Jobs", "Ray Tomlinson did this in the 1970s."]];
+EXTRA=EXTRA.concat([["e-rl", "Which level asks Who? What? When? Where?", "Literal", "Inferential|Evaluative|Applied", "Literal questions have answers written directly in the text."], ["e-rl", "“Reading between the lines” describes which level?", "Inferential", "Literal|Appreciative|Applied", "Inferential means finding the implied meaning."], ["e-rl", "True or false: “Walking is the best way to travel” is a fact.", "False", "True", "It is an opinion. Others may disagree, and “best” is biased."], ["e-rl", "What does the letter P in L-I-E-A-P stand for?", "Applied", "Appreciative|Predictive|Practical", "P stands for Applied, the level where you use ideas in real life."], ["e-rl", "“The sun peeked over green hills, painting the sky gold.” What mood is created?", "Peaceful and hopeful", "Scary|Sad|Angry", "The imagery is gentle and warm, which is an appreciative response."], ["e-rl", "Which question is inferential?", "Is Maria a student? How do you know?", "What time did Maria wake up?|Where did Maria go?|What did Maria eat?", "The text never says “student.” You infer it from the uniform and school."], ["e-rl", "True or false: Literal answers are found directly in the text.", "True", "False", "Literal means stated word-for-word in the text."], ["e-rl", "Rico says, “This is the most beautiful view in the world.” This is…", "An opinion, because beauty is a personal judgment", "A fact, because he saw it|A literal detail|An inference about the weather", "Judging fact versus opinion is evaluative reading."], ["e-rl", "Which level is the ultimate goal of reading?", "Applied", "Literal|Inferential|Evaluative", "Applied reading takes the text into your life."], ["e-rl", "Name the level that asks, “What lesson did you learn? How will you use this?”", "Applied", "Literal|Inferential|Appreciative", "Applying lessons to real life is the Applied level."], ["e-sp", "In which word is the noun “a gift” stressed correctly?", "PRE-sent", "pre-SENT|pre-sent (no stress)|PRE-SENT", "The noun is PRE-sent; the verb is pre-SENT."], ["e-sp", "Which is NOT an element of stress?", "Color", "Loudness|Pitch|Duration", "Stress is loudness, higher pitch, and longer duration."], ["e-sp", "True or false: Articles and prepositions are usually stressed in a sentence.", "False", "True", "They are function words and are usually unstressed."], ["e-sp", "Which word is a content word in “She will probably visit the museum tomorrow”?", "visit", "will|the|she", "“Visit” is a main verb, so it carries meaning."], ["e-sp", "Which intonation pattern is used for yes/no questions?", "2-3-3", "2-3-1|1-2-3|4-4-4", "Yes/no questions use the rising 2-3-3 pattern."], ["e-sp", "A speech that is carefully rehearsed but delivered from notes in a conversational way is…", "Extemporaneous", "Impromptu|Manuscript|Memorized", "Extemporaneous balances preparation and natural delivery."], ["e-sp", "You are suddenly asked to speak in class with no preparation. This is…", "Impromptu", "Manuscript|Memorized|Extemporaneous", "Little or no preparation means impromptu."], ["e-sp", "What is a common risk of manuscript delivery?", "Monotone delivery and weak engagement", "Forgetting everything|No accuracy|Too much eye contact", "Reading word-for-word can sound flat unless you add vocal variety."], ["e-sp", "Which pitch level (1, 2, 3, or 4) shows finality at the end of a sentence?", "Level 1 (low)", "Level 2 (normal)|Level 3 (high)|Level 4 (very high)", "Level 1 is low pitch and signals finality."], ["e-sp", "In “I didn’t SAY he stole the money,” stressing SAY suggests…", "Someone else said it", "He did not take it|Nothing changes|The money is missing", "Stressing “say” implies you did not say it, though you may have implied it another way."], ["e-rd", "Reading comprehension is best defined as…", "Understanding and interpreting written text", "Reading fast|Memorizing words|Reading aloud", "Reading is accompanied by understanding."], ["e-rd", "“Who was the girl who lost the glass slipper?” is which level?", "Literal", "Inferential|Critical|Valuing", "The answer is stated in the story."], ["e-rd", "Which level is called “reading between the lines”?", "Inferential", "Literal|Creative|Critical", "Inferential means the idea is implied."], ["e-rd", "Which skill belongs to the critical level?", "Distinguishing fact from opinion", "Naming a character|Writing an alternate ending|Copying a sentence", "Fact vs. opinion is a critical reading skill."], ["e-rd", "“Write a letter from Cinderella to her future self.” This is which level?", "Creative", "Literal|Inferential|Critical", "It asks you to create something new."], ["e-rd", "True or false: A how or why question is always inferential.", "False", "True", "If the answer is directly stated in the text, it is literal."], ["e-rd", "Which level is called “reading beyond the lines”?", "Valuing", "Literal|Critical|Creative", "Valuing applies the ideas to life situations."], ["e-rd", "A statement about future behavior or action is a…", "Prediction", "Generalization|Assumption|Conclusion", "Predictions look ahead."], ["e-rd", "Which level asks you to judge the author’s purpose and bias?", "Critical", "Literal|Creative|Valuing", "Critical reading weighs the author’s intent and point of view."], ["e-rd", "Which is NOT a kind of inference?", "Quotation", "Assumption|Prediction|Generalization", "The four kinds are assumptions, conclusions, generalizations, and predictions."], ["e-wr", "The main purpose of an argumentative essay is to…", "Convince the reader using evidence", "Tell a story|Entertain|Explain a process", "It proves a point with logic and evidence."], ["e-wr", "A strong thesis statement…", "Clearly states the writer’s position", "Asks a question|Tells a personal story|Lists every source", "The thesis states your position clearly."], ["e-wr", "True or false: An argumentative essay appeals mainly to logic.", "True", "False", "It relies on facts, statistics, and reasoning."], ["e-wr", "A counterargument is…", "What someone who disagrees might say", "A repeat of your claim|The conclusion|A citation", "It is the opposing point of view."], ["e-wr", "What do you call your response to a counterargument?", "Rebuttal", "Claim|Evidence|Thesis", "A rebuttal answers the counterargument with evidence."], ["e-wr", "Which part introduces the topic and presents the thesis?", "Introduction", "Body|Rebuttal|Conclusion", "The introduction presents the topic and thesis."], ["e-wr", "True or false: Emotional language should be the main support in an argumentative essay.", "False", "True", "Evidence and logic should be the main support; emotion plays a smaller role."], ["e-wr", "What makes evidence strong?", "It is credible and relevant to the claim", "It is long|It is the writer’s feeling|It rhymes", "Strong evidence is credible, relevant, and explained."], ["e-wr", "The conclusion should…", "Restate the thesis and summarize key points", "Add new claims|Present the weakest evidence|Oppose the claim", "It reinforces the claim and leaves a strong impression."], ["e-wr", "Why is Essay 2 (on social media) weaker?", "It uses vague statements without evidence", "It is too formal|It has a conclusion|It mentions free speech", "It has no credible sources or data and a weak rebuttal."], ["e-vw", "Viewing is which kind of skill?", "Receptive", "Productive|Physical|Oral", "Viewing, like listening and reading, is receptive."], ["e-vw", "True or false: A meme is a form of visual media.", "True", "False", "Memes are widely shared humorous images, videos, or text."], ["e-vw", "Which visual media combines images, charts, and text to explain data?", "Infographic", "Meme|Cartoon|Photo", "Infographics make complex ideas easier to understand."], ["e-vw", "True or false: Blue often creates a sense of urgency or passion.", "False", "True", "Red signals urgency or passion; blue is calm and trusting."], ["e-vw", "Which element refers to font style, size, and spacing?", "Typography", "Color|Layout|Images", "Typography affects how written information is seen and read."], ["e-vw", "Layout is important because it…", "Organizes elements and guides attention", "Adds decoration only|Replaces text|Changes the color", "Good layout shows what to look at first."], ["e-vw", "True or false: Text is unnecessary because images already explain everything.", "False", "True", "Text gives specific details such as names, dates, and instructions."], ["e-vw", "Which is a difference between films and videos?", "Films are usually longer with a structured plot", "Videos have no sound|Films cannot tell stories|Videos are always printed", "Films are longer; videos are usually shorter and found online."], ["e-vw", "A poor layout can…", "Make good content confusing", "Improve color|Remove images|Make typography perfect", "Without proper layout, good content may be overlooked."], ["e-vw", "Which is NOT a key element of visual media in this unit?", "Audio", "Color|Layout|Typography", "The elements are color, text, layout, images, and typography."]]);
+var BUILT={};Object.keys(SUBJECTS).forEach(function(k){BUILT[k]=build(SUBJECTS[k].topics)});
+var CUR=null,TOPICS=[],CARDS=[],QUIZ=[],reviewed={},know={};
+/* theme */
+(function(){var t=store("rv-theme");if(t)document.documentElement.setAttribute("data-theme",t);
+el("themeBtn").addEventListener("click",function(){var cur=document.documentElement.getAttribute("data-theme");var dark=cur?cur==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var n=dark?"light":"dark";document.documentElement.setAttribute("data-theme",n);store("rv-theme",n)})})();
+/* hub */
+var views={hub:el("hubView"),read:el("readView"),cards:el("cardsView"),quiz:el("quizView")};
+function show(v){Object.keys(views).forEach(function(k){views[k].hidden=(k!==v)});
+  el("tabs").hidden=(v==="hub");el("menuBtn").style.display=(v==="read")?"":"none";el("side").classList.remove("open");
+  document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected",x.getAttribute("data-view")===v)});window.scrollTo(0,0)}
+function renderHub(){
+  el("subs").innerHTML=Object.keys(SUBJECTS).map(function(k){
+    var s=SUBJECTS[k],b=BUILT[k],rv=store(k+"-reviewed")||{},kn=store(k+"-know")||{},last=store(k+"-last");
+    var n=s.topics.filter(function(t){return rv[t.id]}).length,known=Object.keys(kn).filter(function(x){return kn[x]==="k"}).length;
+    return "<button class=\"sc\" data-open=\""+k+"\"><div class=\"code\">"+s.code+"</div><h2>"+s.name+"</h2><p>"+s.desc+"</p>"+
+    "<div class=\"stats\"><span><b>"+s.topics.length+"</b>topics</span><span><b>"+b.cards.length+"</b>flashcards</span><span><b>"+b.quiz.length+"</b>quiz questions</span></div>"+
+    "<div class=\"count\">"+n+"/"+s.topics.length+" topics reviewed · "+known+" cards known"+(last?" · last quiz "+last:"")+"</div></button>"}).join("");
+}
+el("subs").addEventListener("click",function(e){var b=e.target.closest("[data-open]");if(b)openSubject(b.getAttribute("data-open"))});
+el("home").addEventListener("click",function(){renderHub();show("hub")});
+function openSubject(id){
+  CUR=id;var s=SUBJECTS[id];TOPICS=s.topics;CARDS=BUILT[id].cards;QUIZ=BUILT[id].quiz;
+  reviewed=store(id+"-reviewed")||{};know=store(id+"-know")||{};
+  el("subTitle").textContent=s.name;el("subDesc").textContent=s.desc+"";
+  el("search").value="";fillSelect(el("cardTopic"),CARDS);fillSelect(el("quizTopic"),QUIZ);
+  renderRead();buildDeck(false);el("quizBody").innerHTML="<p class=\"empty\">Pick a topic and how many questions, then press Start quiz.</p>";show("read");
+}
+/* read */
+function blockHTML(b){
+  if(b.t==="h")return "<h3>"+md(b.x)+"</h3>";if(b.t==="p")return "<p>"+md(b.x)+"</p>";
+  if(b.t==="note")return "<div class=\"note\">"+md(b.x)+"</div>";
+  if(b.t==="ul"||b.t==="ol")return "<"+b.t+">"+b.x.map(function(i){return "<li>"+md(i)+"</li>"}).join("")+"</"+b.t+">";
+  if(b.t==="table")return "<div class=\"tw\"><table><thead><tr>"+b.h.map(function(h){return "<th>"+h+"</th>"}).join("")+"</tr></thead><tbody>"+b.r.map(function(r){return "<tr>"+r.map(function(c){return "<td>"+md(c)+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
+  return "";
+}
+function renderRead(){
+  var q=el("search").value.trim().toLowerCase();
+  var list=TOPICS.filter(function(t){return !q||(t.title+" "+t.lead+" "+JSON.stringify(t.blocks)).toLowerCase().indexOf(q)>-1});
+  el("topics").innerHTML=list.length?list.map(function(t){var d=!!reviewed[t.id];
+    return "<article class=\"topic\" id=\"t-"+t.id+"\"><div class=\"topic-hd\"><div><h2>"+t.title+"</h2><p class=\"unit\">"+t.unit+"</p></div><button class=\"btn\" data-done=\""+t.id+"\" aria-pressed=\""+d+"\">"+(d?"Reviewed":"Mark as reviewed")+"</button></div><p class=\"lead\">"+md(t.lead)+"</p>"+t.blocks.map(blockHTML).join("")+"</article>"}).join(""):"<p class=\"empty\">No topics match “"+esc(q)+"”. Try a shorter word.</p>";
+  renderNav(list);updateProgress();observe();
+}
+function renderNav(list){
+  var shown={};list.forEach(function(t){shown[t.id]=1});var gs=[],m={};
+  TOPICS.forEach(function(t){if(!shown[t.id])return;if(!m[t.g]){m[t.g]=[];gs.push(t.g)}m[t.g].push(t)});
+  el("nav").innerHTML=gs.map(function(g){return "<div class=\"grp\">"+g+"</div>"+m[g].map(function(t){return "<a href=\"#t-"+t.id+"\" data-nav=\""+t.id+"\" class=\""+(reviewed[t.id]?"done":"")+"\"><span>"+t.title+"</span><span class=\"tick\"></span></a>"}).join("")}).join("");
+}
+function updateProgress(){var n=TOPICS.filter(function(t){return reviewed[t.id]}).length;el("progText").textContent=n+" of "+TOPICS.length+" topics reviewed";el("barFill").style.width=(TOPICS.length?n/TOPICS.length*100:0)+"%"}
+el("topics").addEventListener("click",function(e){var b=e.target.closest("[data-done]");if(!b)return;var id=b.getAttribute("data-done");
+  if(reviewed[id])delete reviewed[id];else reviewed[id]=1;store(CUR+"-reviewed",reviewed);
+  b.setAttribute("aria-pressed",!!reviewed[id]);b.textContent=reviewed[id]?"Reviewed":"Mark as reviewed";
+  renderNav(TOPICS.filter(function(t){return el("t-"+t.id)}));updateProgress()});
+el("search").addEventListener("input",renderRead);
+el("nav").addEventListener("click",function(e){if(e.target.closest("a")){el("side").classList.remove("open");el("menuBtn").setAttribute("aria-expanded","false")}});
+el("menuBtn").addEventListener("click",function(){var o=el("side").classList.toggle("open");el("menuBtn").setAttribute("aria-expanded",o)});
+var io=null;function observe(){if(!("IntersectionObserver" in window))return;if(io)io.disconnect();
+  io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)document.querySelectorAll(".nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("data-nav")===en.target.id.slice(2))})})},{rootMargin:"-30% 0px -60% 0px"});
+  document.querySelectorAll(".topic").forEach(function(s){io.observe(s)})}
+document.querySelectorAll(".tab").forEach(function(t){t.addEventListener("click",function(){show(t.getAttribute("data-view"))})});
+/* flashcards */
+function fillSelect(sel,source){sel.innerHTML="<option value=\"all\">All topics</option>"+TOPICS.filter(function(t){return source.some(function(c){return c[0]===t.id})}).map(function(t){return "<option value=\""+t.id+"\">"+t.title+"</option>"}).join("")}
+var deck=[],ci=0;
+function buildDeck(shuffle){
+  var f=el("cardTopic").value,m=el("cardMode").value;
+  deck=CARDS.filter(function(c){return (f==="all"||c[0]===f)&&(m==="all"||know[c[1]]==="r")});
+  if(shuffle)deck=shuf(deck);ci=0;showCard();
+}
+function showCard(){
+  el("card").classList.remove("flip");var has=deck.length>0,c=deck[ci];
+  el("cardQ").textContent=has?c[1]:"No cards here yet. Mark some cards “Review again”, or switch to All cards.";el("cardA").textContent=has?c[2]:"";
+  el("cardCount").textContent=has?"Card "+(ci+1)+" of "+deck.length:"0 cards";
+  var k=Object.keys(know).filter(function(x){return know[x]==="k"}).length;el("cardStat").textContent="Known "+k+" of "+CARDS.length;
+  ["nextCard","prevCard","knowBtn","reviewBtn"].forEach(function(i){el(i).disabled=!has});
+}
+function flip(){if(deck.length)el("card").classList.toggle("flip")}
+function mark(v){
+  if(!deck.length)return;
+  know[deck[ci][1]]=v;store(CUR+"-know",know);
+  if(el("cardMode").value==="review"&&v==="k"){
+    deck.splice(ci,1);if(ci>=deck.length)ci=0;
+  }else if(deck.length){ci=(ci+1)%deck.length;}
+  showCard();
+}
+el("cardIn").addEventListener("click",flip);
+el("cardTopic").addEventListener("change",function(){buildDeck(false)});el("cardMode").addEventListener("change",function(){buildDeck(false)});
+el("nextCard").addEventListener("click",function(){if(!deck.length)return;ci=(ci+1)%deck.length;showCard()});
+el("prevCard").addEventListener("click",function(){if(!deck.length)return;ci=(ci-1+deck.length)%deck.length;showCard()});
+el("shuffleCard").addEventListener("click",function(){buildDeck(true)});
+el("knowBtn").addEventListener("click",function(){mark("k")});el("reviewBtn").addEventListener("click",function(){mark("r")});
+el("resetCards").addEventListener("click",function(){if(confirm("Clear your known / review marks for this subject?")){know={};store(CUR+"-know",know);buildDeck(false)}});
+document.addEventListener("keydown",function(e){if(views.cards.hidden||e.target.tagName==="SELECT")return;
+  if(e.key===" "&&e.target.tagName!=="BUTTON"){e.preventDefault();flip()}if(e.key==="ArrowRight")el("nextCard").click();if(e.key==="ArrowLeft")el("prevCard").click()});
+/* quiz */
+var qs=[],qi=0,score=0,missed=[];
+function startQuiz(){
+  var f=el("quizTopic").value,n=+el("quizN").value;
+  qs=shuf(QUIZ.filter(function(q){return f==="all"||q[0]===f}));
+  if(n>0)qs=qs.slice(0,n);
+  qi=0;score=0;missed=[];showQ();
+}
+function showQ(){
+  var body=el("quizBody");
+  if(qs.length===0){body.innerHTML="<p class=\"empty\">No quiz questions are available for this selection. Please choose another topic.</p>";return}
+  if(qi>=qs.length){var pct=Math.round(score/qs.length*100);store(CUR+"-last",pct+"%");
+    var ids=missed.filter(function(v,i,a){return a.indexOf(v)===i});
+    body.innerHTML="<div class=\"score\">"+score+" / "+qs.length+"</div><p>"+pct+"% correct."+(ids.length?" Review these topics:":" Nothing to review.")+"</p>"+(ids.length?"<ul>"+ids.map(function(id){return "<li>"+TOPICS.filter(function(x){return x.id===id})[0].title+"</li>"}).join("")+"</ul>":"")+"<button class=\"btn pri\" id=\"again\">Try again</button>";
+    el("again").addEventListener("click",startQuiz);return}
+  var q=qs[qi];
+  body.innerHTML="<div class=\"count\">Question "+(qi+1)+" of "+qs.length+" · Score "+score+"</div><div class=\"qtext\"></div><div id=\"opts\"></div><div id=\"fb\"></div>";
+  body.querySelector(".qtext").textContent=q[1];
+  q[2].forEach(function(o,i){var b=document.createElement("button");b.className="opt";b.textContent=o;b.addEventListener("click",function(){answer(i)});el("opts").appendChild(b)});
+}
+function answer(i){
+  var q=qs[qi],btns=el("opts").children;
+  for(var k=0;k<btns.length;k++){btns[k].disabled=true;if(k===q[3])btns[k].classList.add("ok")}
+  if(i===q[3])score++;else{btns[i].classList.add("no");missed.push(q[0])}
+  el("fb").innerHTML="<div class=\"why\"></div><button class=\"btn pri\" id=\"nextQ\">"+(qi+1>=qs.length?"See score":"Next question")+"</button>";
+  el("fb").querySelector(".why").textContent=(i===q[3]?"Correct. ":"Not quite. ")+q[4];
+  el("nextQ").addEventListener("click",function(){qi++;showQ()});el("nextQ").focus();
+}
+el("startQuiz").addEventListener("click",startQuiz);
+(function(){var h=document.querySelector(".top");function s(){if(h)document.documentElement.style.setProperty("--hdr",h.offsetHeight+"px")}s();window.addEventListener("resize",s);window.addEventListener("orientationchange",s);if(window.ResizeObserver&&h)new ResizeObserver(s).observe(h)})();
+renderHub();show("hub");
+</script></body></html>
